@@ -8,3 +8,5 @@ env.bak/
 venv.bak/
 .idea
 .idea/*
+.DS_Store
+.gitignore
