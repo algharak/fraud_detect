@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """Model config in json format"""
 
-
-'''
 CFG = {
     "data": {
         "path": "oxford_iiit_pet:3.*.*",
@@ -30,28 +28,4 @@ CFG = {
         },
         "output": 3
     }
-}
-
-
-
-'''
-CFG = {
-    "dataset": {
-        "path": "./dataset",
-        "lfile": "creditcard.csv",
-        "kaggle_username": "gharakhanian",
-        "kaggle_key": "abe9ee2ccc9321fcaaa6c4d71306d92d",
-        "kfile":"creditcard.csv",
-        "kurl":"https://www.kaggle.com/mlg-ulb/creditcardfraud"
-    },
-    "model": {
-        "input": "model params to be added later"
-        },
-    "train": {
-        "input": "train params to be added later"
-        },
-    "data": {
-        "input": "data params to be added later"
-        }
-
 }

@@ -10,8 +10,7 @@ class BaseModel(ABC):
     def __init__(self, cfg):
         self.config = Config.from_json(cfg)
 
-'''
-@abstractmethod
+    @abstractmethod
     def load_data(self):
         pass
 
@@ -27,5 +26,4 @@ class BaseModel(ABC):
     def evaluate(self):
         pass
 
-'''
 

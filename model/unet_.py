@@ -9,25 +9,17 @@ from dataloader.dataloader import DataLoader
 
 # external
 import tensorflow as tf
-
+from tensorflow_examples.models.pix2pix import pix2pix
 
 
 class UNet(BaseModel):
     """Unet Model Class"""
     def __init__(self, config):
         super().__init__(config)
+        self.base_model = tf.keras.applications.MobileNetV2(input_shape=self.config.model.input, include_top=False)
         self.model = None
-    def load_data(self):
-        """Loads and stores data in the proper path/file """
-        self.dataset, self.info = DataLoader().load_data(self.config)
-        print ("done")
+        self.output_channels = self.config.model.output
 
-
-
-'''
-  
-  
-  
         self.dataset = None
         self.info = None
         self.batch_size = self.config.train.batch_size
@@ -42,6 +34,10 @@ class UNet(BaseModel):
         self.train_dataset = []
         self.test_dataset = []
 
+    def load_data(self):
+        """Loads and Preprocess data """
+        self.dataset, self.info = DataLoader().load_data(self.config.data)
+        self._preprocess_data()
 
     def _preprocess_data(self):
         """ Splits into training and test and set training parameters"""
@@ -206,4 +202,3 @@ class UNet(BaseModel):
                 }
             }
         )
-'''
