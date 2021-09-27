@@ -19,8 +19,7 @@ class UNet(BaseModel):
         self.model = None
     def load_data(self):
         """Loads and stores data in the proper path/file """
-        self.dataset, self.info = DataLoader().load_data(self.config)
-        print ("done")
+        self.dataset = DataLoader().load_data(self.config)
 
 
 

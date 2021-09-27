@@ -42,7 +42,7 @@ CFG = {
         "kaggle_username": "gharakhanian",
         "kaggle_key": "abe9ee2ccc9321fcaaa6c4d71306d92d",
         "kfile":"creditcard.csv",
-        "kurl":"https://www.kaggle.com/mlg-ulb/creditcardfraud"
+        "name":"mlg-ulb/creditcardfraud"
     },
     "model": {
         "input": "model params to be added later"
