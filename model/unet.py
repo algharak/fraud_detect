@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
 """Unet model"""
-
-# standard library
+from sklearn.manifold import TSNE
+from sklearn.model_selection import train_test_split, RandomizedSearchCV, StratifiedKFold
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report,accuracy_score, roc_curve, precision_score
+from sklearn.metrics import confusion_matrix, recall_score, roc_auc_score, f1_score, precision_recall_curve
+from sklearn.model_selection import cross_val_score
+#from imblearn.pipeline import make_pipeline
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import IsolationForest
 
 # internal
 from .base_model import BaseModel
@@ -10,22 +18,58 @@ from dataloader.dataloader import DataLoader
 # external
 import tensorflow as tf
 
-
-
 class UNet(BaseModel):
     """Unet Model Class"""
     def __init__(self, config):
         super().__init__(config)
-        self.model = None
     def load_data(self):
         """Loads and stores data in the proper path/file """
         self.dataset = DataLoader().load_data(self.config)
+        self.batch_size = self.config.train.batch_size
+        self.epoches = self.config.train.epoches
+        self.val_subsplits = self.config.train.val_subsplits
+        self._preprocess_data()
+    def _preprocess_data(self):
+        self.train_dataset = self.dataset.sample(frac=self.config.train.val_subsplits, random_state=0)
+        self.test_dataset = self.dataset.drop(self.train_dataset.index)
+        all_cols = self.train_dataset.columns
+        label_col   = [self.config.train.label_colname]
+        feat_cols   = [i for i in all_cols if i not in label_col]
+        self.y_te, self.y_tr = self.test_dataset[label_col],self.train_dataset[label_col]
+        self.X_te, self.X_tr = self.test_dataset[feat_cols],self.train_dataset[feat_cols]
+        self.input_shape = len(feat_cols)
+
+    def build(self):
+        """ Builds sklearn model """
+        self.model = LogisticRegression(penalty=self.config.model.penalty,
+                                         max_iter= self.config.model.max_iter,
+                                         class_weight=self.config.model.class_weight)
+
+    def train(self):
+
+        """Compiles and trains the mode and print metricsl"""
+        LR_model= self.model.fit(self.X_tr,                                 self.y_tr)
+        y_pred = LR_model.predict(self.X_te)
+        print("The Precision Score is  : ", precision_score(self.y_te, y_pred))
+        print("The Recall Score Is: ",recall_score(self.y_te, y_pred))
+        print("The ROC_AUC Score Is: ",roc_auc_score(self.y_te, y_pred))
+        print("The F1 Score Is: ",f1_score(self.y_te, y_pred))
+        print("The Precision Recall Curve Is: ",precision_recall_curve(self.y_te, y_pred))
+        print(classification_report(self.y_te, y_pred))
+        return
 
 
 
 '''
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+
   
-  
+  y = df.pop('output')
+X = df
+
+X_train,X_test,y_train,y_test = train_test_split(X.index,y,test_size=0.2)
+X.iloc[X_train] # return dataframe train
   
         self.dataset = None
         self.info = None

@@ -9,9 +9,9 @@ class BaseModel(ABC):
     """Abstract Model class that is inherited to all models"""
     def __init__(self, cfg):
         self.config = Config.from_json(cfg)
+        print ("H")
 
-'''
-@abstractmethod
+    @abstractmethod
     def load_data(self):
         pass
 
@@ -23,9 +23,9 @@ class BaseModel(ABC):
     def train(self):
         pass
 
-    @abstractmethod
-    def evaluate(self):
-        pass
+#    @abstractmethod
+#    def evaluate(self):
+#    pass
 
-'''
+
 

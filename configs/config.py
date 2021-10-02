@@ -45,11 +45,15 @@ CFG = {
         "name":"mlg-ulb/creditcardfraud"
     },
     "model": {
-        "input": "model params to be added later"
+        "penalty": "l1",
+        "max_iter": 200,
+        "class_weight" : None
         },
     "train": {
-        "input": "train params to be added later"
-        },
+        "batch_size": 32,
+        "epoches": 16,
+        "val_subsplits": 0.7,
+        "label_colname":    "Class"},
     "data": {
         "input": "data params to be added later"
         }

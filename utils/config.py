@@ -7,16 +7,16 @@ import json
 class Config:
     """Config class which contains data, train and model hyperparameters"""
 
-    def __init__(self, dataset, train=None, model=None):
-        self.dataset = dataset
-        self.train = train
-        self.model = model
+    def __init__(self, p_d,p_m,p_t):
+         self.dataset = p_d
+         self.model = p_m
+         self.train = p_t
 
     @classmethod
     def from_json(cls, cfg):
         """Creates config from json"""
         params = json.loads(json.dumps(cfg), object_hook=HelperObject)
-        return cls(params.dataset)
+        return cls(params.dataset,params.model,params.train)
 
 
 class HelperObject(object):
